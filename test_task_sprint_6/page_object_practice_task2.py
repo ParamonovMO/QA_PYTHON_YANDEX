@@ -31,7 +31,7 @@ class LoginPageMesto:
 # Класс заголовка
 class HeaderPageMesto:
     # создай локатор для элемента c email в заголовке страницы
-    header_user = ...
+    header_user = [By.CLASS_NAME, 'header__user']
 
     def __init__(self, driver):
         self.driver = driver
@@ -42,7 +42,7 @@ class HeaderPageMesto:
 
     # метод для получения текста элемента в заголовке
     def email_in_header(self):
-        ...
+        return self.driver.find_element(*self.header_user).text
 
 
 # класс с автотестом
@@ -60,24 +60,28 @@ class TestPraktikum:
         self.driver.get('https://qa-mesto.praktikum-services.ru/')
 
         # создай объект класса страницы авторизации
-        ...
+        auth_page = LoginPageMesto(self.driver)
+
         # выполни авторизацию
-        email = "Введи сюда email твоей учётной записи"
-        password = "Введи сюда пароль твоей учётной записи"
+        email = "paramonov.maxim@vk.com"
+        password = "13542Qwe"
+
         # передавай эти переменные внутрь метода
-        ...
+        auth_page.login(email, password)
 
         # создай объект класса заголовка приложения
-        ...
+        main_page = HeaderPageMesto(self.driver)
+        
         # дождись загрузки заголовка
-        ...
+        main_page.wait_for_load_header()
+
         # получи текст элемента в заголовке
-        email_from_header = ...
+        email_from_header = main_page.email_in_header()
 
         # сделай проверку, что полученное значение совпадает c email
-        assert ...
+        assert email_from_header == email
 
     @classmethod
     def teardown_class(cls):
         # Закрой браузер
-        ...
+        cls.driver.quit()
