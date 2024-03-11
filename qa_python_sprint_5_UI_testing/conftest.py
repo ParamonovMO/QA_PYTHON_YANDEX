@@ -12,6 +12,7 @@ def driver():
     driver.quit()
 
 
+
 @pytest.fixture
 def get_login_driver(driver):
     driver.get(URLS.MAIN_PAGE_URL)
